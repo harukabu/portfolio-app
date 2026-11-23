@@ -172,7 +172,26 @@ placeholder="年間配当">
 <div id="yieldResult"></div>
 
 </div>
+<div class="card">
 
+<h2>📈 資産推移グラフ</h2>
+
+<input
+type="month"
+id="assetMonth">
+
+<input
+type="number"
+id="assetValue"
+placeholder="総資産（円）">
+
+<button onclick="addAssetHistory()">
+資産を追加
+</button>
+
+<canvas id="historyChart"></canvas>
+
+</div>
 <div class="card">
 
 <h2>📅 月別配当カレンダー</h2>
@@ -254,47 +273,4 @@ if(!invest)return;
 
 const yieldRate=
 ((
-const historyLabels = [];
-const historyValues = [];
 
-const historyChart = new Chart(
-document.getElementById("historyChart"),
-{
-type:"line",
-data:{
-labels:historyLabels,
-datasets:[{
-label:"総資産",
-data:historyValues,
-borderColor:"#2563eb",
-backgroundColor:"rgba(37,99,235,.2)",
-fill:true,
-tension:0.3
-}]
-},
-options:{
-responsive:true
-}
-}
-);
-
-function addAssetHistory(){
-
-const month =
-document.getElementById("assetMonth").value;
-
-const asset =
-Number(
-document.getElementById("assetValue").value
-);
-
-if(!month || !asset){
-alert("年月と総資産を入力してください");
-return;
-}
-
-historyLabels.push(month);
-historyValues.push(asset);
-
-historyChart.update();
-}
