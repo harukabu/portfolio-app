@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>投資ダッシュボード</title>
 
+<link rel="manifest" href="manifest.json">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+margin:0;
+padding:20px;
+font-family:sans-serif;
+background:#f4f6f9;
+}
+
+.card{
+background:#fff;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+button{
+width:100%;
+padding:10px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:8px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:5px 0 10px 0;
+box-sizing:border-box;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>📈 投資ダッシュボード</h1>
+
+<div class="card">
+<h2>📊 資産配分</h2>
+<canvas id="chart"></canvas>
+</div>
+
+<div class="card">
+<h2>📈 資産推移グラフ</h2>
+
+<input type="month" id="assetMonth">
+
+<input
+type="number"
+id="assetValue"
+placeholder="総資産">
+
+<button onclick="addAssetHistory()">
+資産を追加
+</button>
+
+<canvas id="historyChart"></canvas>
+
+</div>
+
+<script>
+
+const chart = new Chart(
+document.getElementById("chart"),
+{
+type:"pie",
+data:{
+labels:[
+"米国株",
+"日本株",
+"投資信託",
+"現金"
+],
+datasets:[{
+data:[45,20,30,5]
+}]
+}
+}
+);
+
+const historyLabels=[];
+const historyValues=[];
+
+const historyChart=
+new Chart(
+document.getElementById("historyChart"),
+{
+type:"line",
+data:{
+labels:historyLabels,
+datasets:[{
+label:"総資産",
+data:historyValues,
+borderColor:"#2563eb",
+backgroundColor:"rgba(37,99,235,.2)",
+fill:true
+}]
+}
+}
+);
+
+function addAssetHistory(){
+
+const month=
+document.getElementById("assetMonth").value;
+
+const asset=
+Number(
+document.getElementById("assetValue").value
+);
+
+if(!month || !asset){
+alert("年月と総資産を入力してください");
+return;
+}
+
+historyLabels.push(month);
+historyValues.push(asset);
+
+historyChart.update();
+}
+
+</script>
+
+</body>
+</html>
