@@ -83,7 +83,10 @@ placeholder="総資産">
 
 <button onclick="addAssetHistory()">
 資産を追加
-</button>
+</button>  
+<button onclick="clearAssetHistory()">
+🗑️ 資産履歴を削除
+</button>  
 
 <canvas id="historyChart"></canvas>
 
@@ -150,7 +153,22 @@ if(!month || !asset){
 alert("年月と総資産を入力してください");
 return;
 }
+function clearAssetHistory(){
 
+if(!confirm("資産履歴をすべて削除しますか？")){
+return;
+}
+
+historyLabels.length = 0;
+historyValues.length = 0;
+
+localStorage.removeItem("historyLabels");
+localStorage.removeItem("historyValues");
+
+historyChart.update();
+
+alert("削除しました");
+}
 historyLabels.push(month);
 historyValues.push(asset);
 
