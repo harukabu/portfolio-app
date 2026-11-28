@@ -109,9 +109,15 @@ data:[45,20,30,5]
 }
 );
 
-const historyLabels=[];
-const historyValues=[];
+const historyLabels =
+JSON.parse(
+localStorage.getItem("historyLabels")
+) || [];
 
+const historyValues =
+JSON.parse(
+localStorage.getItem("historyValues")
+) || [];
 const historyChart=
 new Chart(
 document.getElementById("historyChart"),
@@ -129,7 +135,7 @@ fill:true
 }
 }
 );
-
+historyChart.update();
 function addAssetHistory(){
 
 const month=
@@ -147,6 +153,16 @@ return;
 
 historyLabels.push(month);
 historyValues.push(asset);
+
+localStorage.setItem(
+"historyLabels",
+JSON.stringify(historyLabels)
+);
+
+localStorage.setItem(
+"historyValues",
+JSON.stringify(historyValues)
+);
 
 historyChart.update();
 }
