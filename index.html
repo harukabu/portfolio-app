@@ -11,59 +11,63 @@
 
 <style>
 body{
-margin:0;
-padding:20px;
-font-family:sans-serif;
-background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  font-family:sans-serif;
+  background:#f4f6f9;
 }
 
 .card{
-background:#fff;
-padding:15px;
-margin-bottom:15px;
-border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+  background:#fff;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
 button{
-width:100%;
-padding:10px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:8px;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  margin-top:5px;
 }
 
 input{
-width:100%;
-padding:10px;
-margin:5px 0 10px 0;
-box-sizing:border-box;
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  box-sizing:border-box;
+}
+
+a{
+  word-break:break-all;
 }
 </style>
 
 </head>
-
 <body>
-<div class="card">
 
+<div class="card">
 <h3>🔗 よく使うURL</h3>
 
 <p>
 公開サイト<br>
 <a href="https://harukabu.github.io/portfolio-app/" target="_blank">
-投資ダッシュボードを開く
+https://harukabu.github.io/portfolio-app/
 </a>
 </p>
 
 <p>
 編集画面<br>
 <a href="https://github.com/harukabu/portfolio-app" target="_blank">
-GitHub編集画面を開く
+https://github.com/harukabu/portfolio-app
 </a>
 </p>
-
 </div>
+
 <h1>📈 投資ダッシュボード</h1>
 
 <div class="card">
@@ -72,6 +76,7 @@ GitHub編集画面を開く
 </div>
 
 <div class="card">
+
 <h2>📈 資産推移グラフ</h2>
 
 <input type="month" id="assetMonth">
@@ -83,10 +88,11 @@ placeholder="総資産">
 
 <button onclick="addAssetHistory()">
 資産を追加
-</button>  
+</button>
+
 <button onclick="clearAssetHistory()">
 🗑️ 資産履歴を削除
-</button>  
+</button>
 
 <canvas id="historyChart"></canvas>
 
@@ -94,6 +100,7 @@ placeholder="総資産">
 
 <script>
 
+// 資産配分グラフ
 const chart = new Chart(
 document.getElementById("chart"),
 {
@@ -112,6 +119,7 @@ data:[45,20,30,5]
 }
 );
 
+// 保存データ読込
 const historyLabels =
 JSON.parse(
 localStorage.getItem("historyLabels")
@@ -121,7 +129,9 @@ const historyValues =
 JSON.parse(
 localStorage.getItem("historyValues")
 ) || [];
-const historyChart=
+
+// 資産推移グラフ
+const historyChart =
 new Chart(
 document.getElementById("historyChart"),
 {
@@ -133,23 +143,20 @@ label:"総資産",
 data:historyValues,
 borderColor:"#2563eb",
 backgroundColor:"rgba(37,99,235,.2)",
-fill:true
+fill:true,
+tension:0.3
 }]
 }
 }
 );
-historyChart.update();
+
+// 資産追加
 function addAssetHistory(){
 
-const month=
+const month =
 document.getElementById("assetMonth").value;
 
-function addAssetHistory(){
-
-const month=
-document.getElementById("assetMonth").value;
-
-const asset=
+const asset =
 Number(
 document.getElementById("assetValue").value
 );
@@ -174,22 +181,29 @@ JSON.stringify(historyValues)
 
 historyChart.update();
 }
+
+// 全削除
 function clearAssetHistory(){
 
 if(!confirm("資産履歴をすべて削除しますか？")){
 return;
 }
 
-historyLabels.splice(0, historyLabels.length);
-historyValues.splice(0, historyValues.length);
+historyLabels.length = 0;
+historyValues.length = 0;
 
 localStorage.removeItem("historyLabels");
 localStorage.removeItem("historyValues");
 
-historyChart.data.labels = [];
-historyChart.data.datasets[0].data = [];
+historyChart.data.labels = historyLabels;
+historyChart.data.datasets[0].data = historyValues;
 
 historyChart.update();
 
 alert("削除しました");
-}  
+}
+
+</script>
+
+</body>
+</html>
