@@ -153,7 +153,25 @@ if(!month || !asset){
 alert("年月と総資産を入力してください");
 return;
 }
-function clearAssetHistory(){
+function function clearAssetHistory(){
+
+if(!confirm("資産履歴をすべて削除しますか？")){
+return;
+}
+
+historyLabels.splice(0, historyLabels.length);
+historyValues.splice(0, historyValues.length);
+
+localStorage.removeItem("historyLabels");
+localStorage.removeItem("historyValues");
+
+historyChart.data.labels = [];
+historyChart.data.datasets[0].data = [];
+
+historyChart.update();
+
+alert("削除しました");
+}{
 
 if(!confirm("資産履歴をすべて削除しますか？")){
 return;
