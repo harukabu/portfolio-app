@@ -144,6 +144,11 @@ function addAssetHistory(){
 const month=
 document.getElementById("assetMonth").value;
 
+function addAssetHistory(){
+
+const month=
+document.getElementById("assetMonth").value;
+
 const asset=
 Number(
 document.getElementById("assetValue").value
@@ -153,7 +158,23 @@ if(!month || !asset){
 alert("年月と総資産を入力してください");
 return;
 }
-function function clearAssetHistory(){
+
+historyLabels.push(month);
+historyValues.push(asset);
+
+localStorage.setItem(
+"historyLabels",
+JSON.stringify(historyLabels)
+);
+
+localStorage.setItem(
+"historyValues",
+JSON.stringify(historyValues)
+);
+
+historyChart.update();
+}
+function clearAssetHistory(){
 
 if(!confirm("資産履歴をすべて削除しますか？")){
 return;
@@ -171,39 +192,4 @@ historyChart.data.datasets[0].data = [];
 historyChart.update();
 
 alert("削除しました");
-}{
-
-if(!confirm("資産履歴をすべて削除しますか？")){
-return;
-}
-
-historyLabels.length = 0;
-historyValues.length = 0;
-
-localStorage.removeItem("historyLabels");
-localStorage.removeItem("historyValues");
-
-historyChart.update();
-
-alert("削除しました");
-}
-historyLabels.push(month);
-historyValues.push(asset);
-
-localStorage.setItem(
-"historyLabels",
-JSON.stringify(historyLabels)
-);
-
-localStorage.setItem(
-"historyValues",
-JSON.stringify(historyValues)
-);
-
-historyChart.update();
-}
-
-</script>
-
-</body>
-</html>
+}  
